@@ -13,10 +13,7 @@ interface FormProps {
   onChange: (name: string, value: string) => void;
   onSubmit: () => void;
   submitLabel?: string;
-  submitClassName?: string;
-  labelClassName?: string;
-  inputClassName?: string;
-  selectClassName?: string;
+  className?: string;
 }
 
 const Form: React.FC<FormProps> = ({
@@ -25,10 +22,7 @@ const Form: React.FC<FormProps> = ({
   onChange,
   onSubmit,
   submitLabel = 'Guardar',
-  submitClassName = "w-full rounded-lg bg-blue-600 px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200",
-  labelClassName = "block text-sm font-medium text-gray-700",
-  inputClassName = "block w-full rounded-lg border-gray-300 bg-white px-4 py-3 text-gray-700 shadow-sm focus:border-blue-500 focus:ring-blue-500 transition-colors duration-200",
-  selectClassName = "block w-full rounded-lg border-gray-300 bg-white px-4 py-3 text-gray-700 shadow-sm focus:border-blue-500 focus:ring-blue-500 transition-colors duration-200"
+  className = "grid gap-4 sm:gap-6"
 }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,13 +30,13 @@ const Form: React.FC<FormProps> = ({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+    <form onSubmit={handleSubmit} className={className}>
+      <div className="grid grid-cols-1 gap-4 sm:gap-6">
         {fields.map((field) => (
-          <div key={field.name} className="space-y-2">
+          <div key={field.name} className="space-y-1.5">
             <label
               htmlFor={field.name}
-              className={labelClassName}
+              className="block text-sm font-medium text-gray-700"
             >
               {field.label}
             </label>
@@ -51,9 +45,8 @@ const Form: React.FC<FormProps> = ({
                 id={field.name}
                 value={values[field.name] || ''}
                 onChange={(e) => onChange(field.name, e.target.value)}
-                className={selectClassName}
+                className="block w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-gray-700 shadow-sm focus:border-blue-500 focus:ring-blue-500 transition-colors duration-200"
               >
-                <option value="" key={`${field.name}-empty`}>Seleccione una opción</option>
                 {field.options?.map((option) => (
                   <option key={`${field.name}-${option.value}`} value={option.value}>
                     {option.label}
@@ -66,17 +59,17 @@ const Form: React.FC<FormProps> = ({
                 id={field.name}
                 value={values[field.name] || ''}
                 onChange={(e) => onChange(field.name, e.target.value)}
-                className={inputClassName}
+                className="block w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-gray-700 shadow-sm focus:border-blue-500 focus:ring-blue-500 transition-colors duration-200"
                 placeholder={`Ingrese ${field.label.toLowerCase()}`}
               />
             )}
           </div>
         ))}
       </div>
-      <div className="flex justify-end">
+      <div className="mt-6 flex justify-end">
         <button
           type="submit"
-          className={submitClassName}
+          className="w-full sm:w-auto rounded-lg bg-blue-600 px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
         >
           {submitLabel}
         </button>

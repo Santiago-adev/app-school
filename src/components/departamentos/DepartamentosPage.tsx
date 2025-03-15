@@ -127,67 +127,65 @@ const DepartamentosPage: React.FC = () => {
   const tableHeaders = ['ID', 'Nombre', 'Código'];
 
   return (
-    <div className="bg-gradient-to-br from-blue-50 to-white min-h-screen p-6">
-      {error && (
-        <div className="mb-4 p-4 bg-red-50 border-l-4 border-red-500 rounded-r-lg text-red-700">
-          <p>{error}</p>
+    <div className="bg-gradient-to-br from-blue-50 to-white min-h-screen p-4 sm:p-6">
+      <div className="max-w-7xl mx-auto space-y-6">
+        {/* Encabezado */}
+        <div className="bg-white rounded-xl shadow-sm p-4 sm:p-6 border border-blue-100">
+          <h1 className="text-2xl sm:text-3xl font-bold text-blue-900 mb-2">Gestión de Departamentos</h1>
+          <p className="text-gray-600">Administra los departamentos y sus códigos en el sistema</p>
         </div>
-      )}
 
-      <div className="bg-white rounded-xl shadow-lg overflow-hidden mb-8 border border-blue-100">
-        <div className="p-6">
-          <h2 className="text-2xl font-bold text-blue-800 mb-6">
-            {editingDepartamento ? 'Editar Departamento' : 'Nuevo Departamento'}
+        {/* Mensajes de error */}
+        {error && (
+          <div className="mb-4 p-4 bg-red-50 border-l-4 border-red-500 rounded-lg text-red-700">
+            <p>{error}</p>
+          </div>
+        )}
+
+        {/* Formulario */}
+        <div className="bg-white rounded-xl shadow-sm p-4 sm:p-6 border border-blue-100">
+          <h2 className="text-xl font-semibold text-blue-900 mb-4">
+            {editingDepartamento ? 'Editar Departamento' : 'Agregar Nuevo Departamento'}
           </h2>
           <Form
             fields={formFields}
             values={formValues}
             onChange={handleFormChange}
             onSubmit={handleSubmit}
-            submitLabel={editingDepartamento ? 'Actualizar' : 'Crear'}
-            submitClassName="w-full sm:w-auto px-6 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
+            submitLabel={editingDepartamento ? 'Actualizar' : 'Agregar'}
           />
         </div>
-      </div>
 
-      <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-blue-100">
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold text-blue-800">Lista de Departamentos</h2>
-            <div className="flex space-x-2">
-              <button 
-                onClick={() => fetchDepartamentos()}
-                className="px-4 py-2 text-sm bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
-              >
-                Actualizar Lista
-              </button>
-            </div>
+        {/* Tabla/Lista de Departamentos */}
+        <div className="bg-white rounded-xl shadow-sm p-4 sm:p-6 border border-blue-100">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+            <h2 className="text-xl font-semibold text-blue-900">Lista de Departamentos</h2>
+            <button 
+              onClick={() => fetchDepartamentos()}
+              className="w-full sm:w-auto px-4 py-2 text-sm bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors flex items-center justify-center gap-2"
+            >
+              <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
+              Actualizar
+            </button>
           </div>
           
           {loading ? (
             <div className="flex justify-center items-center py-8">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-900"></div>
             </div>
           ) : (
-            <div className="overflow-x-auto">
-              <Table
-                headers={tableHeaders}
-                data={departamentos.map(d => {
-                  console.log('Mapeando departamento:', d);
-                  return {
-                    ID: d.id_departamento,
-                    Nombre: d.nombre_departamento,
-                    Código: d.codigo_departamento
-                  };
-                })}
-                onEdit={handleEdit}
-                onDelete={handleDelete}
-                rowClassName="hover:bg-blue-50 transition-colors"
-                headerClassName="bg-blue-50 text-left text-xs font-medium text-blue-800 uppercase tracking-wider"
-                cellClassName="px-6 py-4 whitespace-nowrap text-sm text-gray-700"
-                actionClassName="text-sm text-blue-600 hover:text-blue-800 font-medium"
-              />
-            </div>
+            <Table
+              headers={tableHeaders}
+              data={departamentos.map(d => ({
+                ID: d.id_departamento,
+                Nombre: d.nombre_departamento,
+                Código: d.codigo_departamento
+              }))}
+              onEdit={handleEdit}
+              onDelete={handleDelete}
+            />
           )}
         </div>
       </div>

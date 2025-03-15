@@ -194,68 +194,55 @@ const ColegiosPage: React.FC = () => {
   };
 
   return (
-    <div className="bg-gradient-to-br from-blue-50 to-white min-h-screen p-6">
-      {error && (
-        <div className="mb-4 p-4 bg-red-50 border-l-4 border-red-500 rounded-r-lg text-red-700">
-          <p>{error}</p>
+    <div className="bg-gradient-to-br from-blue-50 to-white min-h-screen p-4 sm:p-6">
+      <div className="max-w-7xl mx-auto space-y-6">
+        {/* Encabezado */}
+        <div className="bg-white rounded-xl shadow-sm p-4 sm:p-6 border border-blue-100">
+          <h1 className="text-2xl sm:text-3xl font-bold text-blue-900 mb-2">Gestión de Colegios</h1>
+          <p className="text-gray-600">Administra la información de los colegios en el sistema</p>
         </div>
-      )}
 
-      <div className="bg-white rounded-xl shadow-lg overflow-hidden mb-8 border border-blue-100">
-        <div className="p-6">
-          <h2 className="text-2xl font-bold text-blue-800 mb-6">
-            {editingColegio ? 'Editar Colegio' : 'Nuevo Colegio'}
+        {/* Mensajes de error */}
+        {error && (
+          <div className="mb-4 p-4 bg-red-50 border-l-4 border-red-500 rounded-lg text-red-700">
+            <p>{error}</p>
+          </div>
+        )}
+
+        {/* Formulario */}
+        <div className="bg-white rounded-xl shadow-sm p-4 sm:p-6 border border-blue-100">
+          <h2 className="text-xl font-semibold text-blue-900 mb-4">
+            {editingColegio ? 'Editar Colegio' : 'Agregar Nuevo Colegio'}
           </h2>
           <Form
             fields={formFields}
             values={formValues}
             onChange={handleFormChange}
             onSubmit={handleSubmit}
-            submitLabel={editingColegio ? 'Actualizar' : 'Crear'}
-            submitClassName="w-full sm:w-auto px-6 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
+            submitLabel={editingColegio ? 'Actualizar' : 'Agregar'}
+            className="grid gap-4 sm:gap-6"
           />
         </div>
-      </div>
 
-      <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-blue-100">
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold text-blue-800">Lista de Colegios</h2>
-            <div className="flex space-x-2">
-              <button 
-                onClick={() => fetchColegios()}
-                className="px-4 py-2 text-sm bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
-              >
-                Actualizar Lista
-              </button>
-            </div>
-          </div>
-          
+        {/* Tabla/Lista de Colegios */}
+        <div className="bg-white rounded-xl shadow-sm p-4 sm:p-6 border border-blue-100">
+          <h2 className="text-xl font-semibold text-blue-900 mb-4">Lista de Colegios</h2>
           {loading ? (
             <div className="flex justify-center items-center py-8">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-900"></div>
             </div>
           ) : (
-            <div className="overflow-x-auto">
-              <Table
-                headers={tableHeaders}
-                data={colegios.map(c => {
-                  console.log('Mapeando colegio:', c);
-                  return {
-                    ID: c.id_colegio,
-                    Nombre: c.nombre_colegio,
-                    Código: c.codigo_colegio,
-                    Municipio: getMunicipioNombre(c.id_municipio)
-                  };
-                })}
-                onEdit={handleEdit}
-                onDelete={handleDelete}
-                rowClassName="hover:bg-blue-50 transition-colors"
-                headerClassName="bg-blue-50 text-left text-xs font-medium text-blue-800 uppercase tracking-wider"
-                cellClassName="px-6 py-4 whitespace-nowrap text-sm text-gray-700"
-                actionClassName="text-sm text-blue-600 hover:text-blue-800 font-medium"
-              />
-            </div>
+            <Table
+              headers={tableHeaders}
+              data={colegios.map(colegio => ({
+                ID: colegio.id_colegio,
+                Nombre: colegio.nombre_colegio,
+                Código: colegio.codigo_colegio,
+                Municipio: getMunicipioNombre(colegio.id_municipio)
+              }))}
+              onEdit={handleEdit}
+              onDelete={handleDelete}
+            />
           )}
         </div>
       </div>
