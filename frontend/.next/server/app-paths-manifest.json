@@ -1,0 +1,9 @@
+{
+  "/colegios/page": "app/colegios/page.js",
+  "/departamentos/page": "app/departamentos/page.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/municipios/page": "app/municipios/page.js",
+  "/page": "app/page.js",
+  "/sedes/page": "app/sedes/page.js",
+  "/usuarios/page": "app/usuarios/page.js"
+}
